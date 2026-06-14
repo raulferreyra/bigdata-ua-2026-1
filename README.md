@@ -1,5 +1,5 @@
-<<<<<<< HEAD
 # 🐘 BIG DATA — DD283 | Universidad Autónoma del Perú
+
 ## Semestre 2026-1 | Ingeniería de Sistemas | Ciclo VIII
 
 [![Python](https://img.shields.io/badge/Python-3.11+-blue?logo=python)](https://python.org)
@@ -41,6 +41,7 @@
 ## 🚀 INICIO RÁPIDO
 
 ### Paso 1: Fork del repositorio
+
 ```bash
 # 1. Haz FORK de este repositorio en tu cuenta de GitHub
 # 2. Clona TU fork (no el original)
@@ -49,6 +50,7 @@ cd bigdata-ua-2026-1
 ```
 
 ### Paso 2: Configurar el entorno
+
 ```bash
 # Opción A: Conda (recomendado para trabajo local)
 conda env create -f setup/environment.yml
@@ -62,6 +64,7 @@ pip install -r setup/requirements.txt
 ```
 
 ### Paso 3: Verificar instalación
+
 ```bash
 python setup/verificar_entorno.py
 ```
@@ -101,7 +104,7 @@ bigdata-ua-2026-1/
 
 ## 🔄 FLUJO DE TRABAJO SEMANAL (¡IMPORTANTE!)
 
-### Cada semana DEBES hacer un Pull Request con tu trabajo:
+### Cada semana DEBES hacer un Pull Request con tu trabajo
 
 ```
 Semana N comienza
@@ -137,7 +140,8 @@ EF  (50%) → Sustentación grupal proyecto completo — Semana 8
 Mínimo aprobatorio: 10.5 / 20
 ```
 
-### Rúbrica de Pull Requests semanales:
+### Rúbrica de Pull Requests semanales
+>
 > Los PRs semanales son **formativos** (no tienen nota directa) pero el docente
 > los revisa y su calidad impacta en EP y EF.
 
@@ -186,11 +190,13 @@ Ver descripción completa en [proyectos/README_proyectos.md](./proyectos/README_
 ## 📚 BIBLIOGRAFÍA
 
 **Principales:**
+
 - Marques Perez, M. (2019). *Big Data: técnicas, herramientas y aplicaciones*. Alfaomega.
 - Caballero, R. (2019). *Big Data con Python*. Alfaomega.
 - Zaharia, M. et al. (2020). *Learning Spark, 2nd Edition*. O'Reilly. [PDF gratuito](https://pages.databricks.com/rs/094-YMS-629/images/LearningSpark2.0.pdf)
 
 **Recursos Online Gratuitos:**
+
 - [Fundamentos de Big Data - UOC](https://openaccess.uoc.edu/server/api/core/bitstreams/4efc24a4-9563-4a0b-97d8-b790954ba50d/content)
 - [Apache Spark Documentation](https://spark.apache.org/docs/latest/)
 - [MongoDB University (cursos gratis)](https://university.mongodb.com/)
@@ -223,7 +229,5 @@ Ver descripción completa en [proyectos/README_proyectos.md](./proyectos/README_
 *"Los datos son el nuevo petróleo — pero solo si saben refinarlo."*
 
 </div>
-=======
 # bigdata-ua-2026-1
 Curso de Big Data 2026-1
->>>>>>> 17f56edb5aab2dda28148bc7c071a093d6eb9298

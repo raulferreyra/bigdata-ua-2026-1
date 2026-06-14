@@ -6,6 +6,7 @@
 ## Como entregar tu solución (lee esto primero)
 
 Cada estudiante debe:
+
 1. Hacer **Fork** del repo del docente
 2. Crear una **rama** con tu nombre: `semana-01-apellido-nombre`
 3. Dentro de esta carpeta, crear **tu propia subcarpeta**: `apellido_nombre/`
@@ -14,7 +15,7 @@ Cada estudiante debe:
 
 ## Estructura esperada
 
-```
+```bash
 Solucion_S1/
 ├── README.md                      ← este archivo
 ├── lopez_maria/
@@ -28,7 +29,7 @@ Solucion_S1/
 
 ## Formato del nombre de tus archivos
 
-```
+```bash
 GUIA_TRABAJO_S1_TuApellido.md
 LABORATORIO_S1_TuApellido.ipynb
 ```
@@ -38,4 +39,5 @@ LABORATORIO_S1_TuApellido.ipynb
 Revisar el sílabo. Las entregas fuera de fecha tienen penalidad de **2 puntos por día**.
 
 ---
-*Universidad Autónoma del Perú | Big Data DD283 | 2026-1*
+
+Universidad Autónoma del Perú | Big Data DD283 | 2026-1
