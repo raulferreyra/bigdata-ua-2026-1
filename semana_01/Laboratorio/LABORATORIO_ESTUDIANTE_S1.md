@@ -2,8 +2,8 @@
 ## Análisis de Datos con Python + Identificación de Tipos de Datos
 ### Big Data (DD283) | Universidad Autónoma del Perú
 
-**Nombre(s)**: _______________________________________________  
-**Grupo**: _______________________________________________  
+**Nombre(s)**: __Miguel Angel Chavrz Alejo_____________________________  
+**Grupo**: ____________25_________________________________  
 **Duración estimada**: 90 minutos  
 **Modalidad**: Individual (en casa, en tu laptop)  
 **Entrega**: Subir notebook .ipynb a GitHub Classroom antes de Semana 2
