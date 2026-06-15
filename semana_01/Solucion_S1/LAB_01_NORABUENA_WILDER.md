@@ -2,8 +2,8 @@
 ## Análisis de Datos con Python + Identificación de Tipos de Datos
 ### Big Data (DD283) | Universidad Autónoma del Perú
 
-**Nombre(s)**: __Miguel Angel Chavrz Alejo_____________________________  
-**Grupo**: ____________25_________________________________  
+**Nombre(s)**: WILDER NICANOR NORABUENA RAMIREZ 
+**Grupo**: 03 
 **Duración estimada**: 90 minutos  
 **Modalidad**: Individual (en casa, en tu laptop)  
 **Entrega**: Subir notebook .ipynb a GitHub Classroom antes de Semana 2
@@ -412,13 +412,14 @@ Sube a tu repositorio GitHub los siguientes archivos:
 **Empresa del proyecto**: 
 
 ## ¿Qué aprendí?
-[Tu reflexión — mínimo 3 oraciones]
+[Aprendí que una arquitectura Big Data bien diseñada permite integrar múltiples fuentes de información —estructuradas, semi-estructuradas y no estructuradas— para generar valor en tiempo real
+También comprendí, cómo tecnologías como Apache Kafka, Spark y Snowflake trabajan en conjunto para ingesta, procesamiento y almacenamiento eficiente]
 
 ## ¿Qué fue lo más difícil?
-[Tu reflexión]
+[Lo más difícil fue estimar el volumen de datos y elegir las tecnologías adecuadas para cada etapa del pipeline]
 
 ## ¿Cómo aplica en mi empresa actual?
-[Tu reflexión — mínimo 2 oraciones]
+[Aplica porque mi institución educativa puede usar Big Data para personalizar recomendaciones de cursos y materiales según el perfil de cada estudiante. También puede implementar sistemas de alerta temprana que detecten estudiantes en riesgo de bajo rendimiento o abandono, permitiendo una intervención oportuna.]
 ```
 
 ---
