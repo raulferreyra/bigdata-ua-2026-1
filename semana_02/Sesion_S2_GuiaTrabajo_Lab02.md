@@ -1,9 +1,10 @@
 # SEMANA 2 — COMPUTACIÓN EN LA NUBE + HADOOP + HDFS + MAPREDUCE + HBASE
+
 ## Big Data (DD283) | Universidad Autónoma del Perú
 
 ---
 
-# PARTE A — GUÍA DE SESIÓN 
+# PARTE A — GUÍA DE SESIÓN
 
 **Duración**: 3 horas  
 **Resultado**: El estudiante describe una propuesta de arquitectura de Big Data para la nube y procesa un archivo distribuido usando Hadoop con integridad.
@@ -14,11 +15,13 @@
 > "La semana pasada diseñaron una arquitectura. Hoy van a ver cómo funciona por dentro. Si tuvieras que guardar 1 MILLÓN de archivos, ¿los guardarías todos en la misma carpeta? ¿Por qué no?"
 
 **Demostración de velocidad** (ejecutar en vivo):
+
 ```bash
 # En local: contar palabras en un archivo pequeño vs. distribuido
 # Mostrar el tiempo con time command
 time cat grande.txt | tr ' ' '\n' | sort | uniq -c | sort -rn | head -10
 ```
+
 Pregunta: "¿Cómo escala esto si el archivo tiene 1 TB?"
 
 ## TEORÍA (45 min)
@@ -26,8 +29,9 @@ Pregunta: "¿Cómo escala esto si el archivo tiene 1 TB?"
 ### Bloque 1: Cloud para Big Data (15 min)
 
 **Los 3 grandes proveedores**:
+
 | | AWS | Azure | GCP |
-|--|-----|-------|-----|
+| -- | ----- | ------- | ----- |
 | Servicio Big Data | EMR | HDInsight | Dataproc |
 | Data Warehouse | Redshift | Synapse | BigQuery |
 | Data Lake | S3 | ADLS | Cloud Storage |
@@ -35,6 +39,7 @@ Pregunta: "¿Cómo escala esto si el archivo tiene 1 TB?"
 | Free tier | 1 año | 200 USD crédito | 300 USD crédito |
 
 **¿Qué es la Computación en la Niebla (Fog Computing)?**
+
 - Edge Computing: procesamiento cerca de la fuente de datos
 - Ejemplo: cámara de seguridad con IA local en una tienda → no necesita enviar video completo a la nube
 - Reduce latencia y ancho de banda
@@ -46,7 +51,7 @@ Pregunta: "¿Cómo escala esto si el archivo tiene 1 TB?"
 
 **Los 4 pilares de Hadoop**:
 
-```
+```sh
 HADOOP ECOSYSTEM
 ├── HDFS (Hadoop Distributed File System)
 │   ├── NameNode: el directorio (sabe dónde están los datos)
@@ -64,7 +69,8 @@ HADOOP ECOSYSTEM
 ```
 
 **HDFS en detalle — dibujar en pizarrón**:
-```
+
+```sh
 Cliente quiere guardar un archivo de 300MB:
   → HDFS lo divide en bloques de 128MB
   → Bloque 1 (128MB): guardado en Nodo1, Nodo3, Nodo5 (3 réplicas)
@@ -75,7 +81,8 @@ Si Nodo1 falla → los datos siguen en Nodo3 y Nodo5 → SIN PÉRDIDA DE DATOS
 ```
 
 **MapReduce — Word Count como ejemplo canónico**:
-```
+
+```txt
 TEXTO: "el cielo es azul el sol es amarillo el cielo brilla"
 
 MAP (divide y cuenta):
@@ -98,13 +105,15 @@ REDUCE (suma):
 ### Bloque 3: HBase (10 min)
 
 **HBase = NoSQL columnar sobre HDFS**:
+
 - Inspirado en Bigtable de Google
 - Ideal para: datos de series de tiempo, logs, sensor data
 - NO es reemplazante de SQL — es complementario
 
 **Cuándo usar HBase vs. MongoDB vs. HDFS**:
+
 | Caso de uso | HBase | MongoDB | HDFS |
-|-------------|-------|---------|------|
+| ------------- | ------- | --------- | ------ |
 | Datos de IoT en tiempo real | ✓✓ | ✓ | ✗ |
 | Documentos JSON | ✗ | ✓✓ | ✗ |
 | Análisis histórico masivo | ✓ | ✗ | ✓✓ |
@@ -151,7 +160,8 @@ hdfs dfs -cat /datos_curso/salida/part-r-00000
 ```
 
 **Output esperado**:
-```
+
+```sh
 ahora   2
 aprendemos  1
 big     2
@@ -162,6 +172,7 @@ futuro  2
 ```
 
 ### Demo 2: PySpark como alternativa a MapReduce (20 min)
+
 *(Para mostrar que Spark es más fácil)*
 
 ```python
@@ -197,6 +208,7 @@ sc.stop()
 **Actividad**: "Procesar datos del sector que tu grupo eligió para el proyecto"
 
 Cada grupo debe:
+
 1. Tomar el problema de su proyecto
 2. Diseñar el flujo MapReduce que necesitarían: ¿Cuál sería el Map? ¿Cuál sería el Reduce?
 3. Implementar un mini Word Count con los datos de su dominio (ej: contar palabras en tweets sobre su empresa)
@@ -204,6 +216,7 @@ Cada grupo debe:
 ## CIERRE (20 min)
 
 **Tarea semana 3**:
+
 1. Completar Guía de Trabajo S2 (preguntas teóricas)
 2. Completar el Lab S2 (Word Count con Hadoop/PySpark)
 3. Instalar MongoDB Compass o crear cuenta en MongoDB Atlas
@@ -218,33 +231,43 @@ Cada grupo debe:
 ## PREGUNTAS TEÓRICAS (10 preguntas)
 
 ### P1: HDFS vs. Sistema de Archivos Tradicional
+
 Explica cómo almacena un archivo de 1 GB el sistema de archivos de tu laptop vs. cómo lo almacenaría HDFS. Usa un diagrama o esquema.
 
 ### P2: NameNode y DataNodes
+
 ¿Qué pasaría si el NameNode de un clúster Hadoop falla? ¿Cómo soluciona Hadoop este problema? (pista: busca "Hadoop HA - High Availability")
 
 ### P3: El algoritmo MapReduce
+
 Explica con un ejemplo diferente al Word Count (usa algo de tu industria) cómo funcionaría el patrón Map → Shuffle → Reduce.
 
 ### P4: YARN — El cerebro del clúster
+
 ¿Qué problema resolvió YARN en Hadoop 2.x que no existía en Hadoop 1.x? ¿Por qué fue tan importante este cambio?
 
 ### P5: Replicación de datos
+
 Si un bloque de HDFS tiene factor de replicación = 3 y el clúster tiene 5 nodos, ¿en cuántos nodos diferentes estará guardado ese bloque? ¿Si fallan 2 nodos simultáneamente, se pierden los datos?
 
 ### P6: AWS vs. Azure vs. GCP para Big Data
+
 Investiga: Si una empresa peruana quisiera migrar su data warehouse a la nube, ¿cuál proveedor recomendarías y por qué? Compara al menos en 3 dimensiones.
 
 ### P7: Computación en la Niebla (Fog Computing)
+
 Da un ejemplo de un caso de uso real en Perú donde Fog Computing sería mejor solución que Cloud Computing. Justifica técnicamente.
 
 ### P8: HBase vs. MySQL
+
 Una empresa de telecomunicaciones necesita almacenar el historial de llamadas de 8 millones de clientes (última semana: 500M registros). ¿HBase o MySQL? ¿Por qué?
 
 ### P9: El problema de los datos calientes
+
 En un clúster HDFS, los datos más accedidos se convierten en "hot data". ¿Qué solución propone Hadoop para esto? ¿Cómo se llama esta optimización?
 
 ### P10: Reflexión crítica
+
 "Hadoop está muriendo. Spark lo reemplazó completamente." ¿Estás de acuerdo o en desacuerdo con esta afirmación? Argumenta con evidencia técnica.
 
 ---
@@ -387,23 +410,24 @@ print(f"Con 100M registros Spark sería 10-100x más rápido porque distribuye e
 print(f"Esta es la clave de Big Data: escala a donde Pandas no puede llegar.")
 ```
 
-### ENTREGABLES LAB S2:
+### ENTREGABLES LAB S2
+
 - [ ] `lab_s2_wordcount_pyspark.ipynb` — Notebook completo ejecutado
 - [ ] Análisis: ¿Qué palabras más frecuentes aparecieron en tu texto de negocio?
 - [ ] Reflexión: ¿En qué momento Spark supera a Pandas? (escribe en una celda Markdown)
 
 ---
 
+## Error más común en el Lab S2
 
-
-## Error más común en el Lab S2:
 **Error**: `java.lang.OutOfMemoryError: Java heap space`  
 **Causa**: Colab tiene memoria limitada  
 **Solución**: Reducir n a 10000 en vez de 100000, o reiniciar el kernel de Colab
 
-## Criterio de evaluación Lab S2:
+## Criterio de evaluación Lab S2
+
 | Criterio | Puntos |
-|---------|--------|
+| --------- | -------- |
 | Word Count ejecutado con texto propio del proyecto | 4 |
 | Spark SQL queries ejecutadas correctamente | 7 |
 | Benchmark Pandas vs. Spark con reflexión | 4 |
