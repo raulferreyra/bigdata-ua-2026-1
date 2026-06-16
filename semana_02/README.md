@@ -10,4 +10,4 @@
 Ver: `notebooks/lab_s02_estudiante.ipynb`
 
 ## Entregable
-Pull Request con el lab completado antes del inicio de la Semana 3.
+Pull Request con el lab completado antes del inicio de la Semana 3..
