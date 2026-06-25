@@ -1,8 +1,7 @@
 ---
-**UNIVERSIDAD AUTÓNOMA DEL PERÚ**
-**FACULTAD DE INGENIERÍA Y ARQUITECTURA**
-**ESCUELA PROFESIONAL DE INGENIERÍA DE SISTEMAS COMPUTACIONALES**
-
+# UNIVERSIDAD AUTÓNOMA DEL PERÚ
+# FACULTAD DE INGENIERÍA Y ARQUITECTURA
+# ESCUELA PROFESIONAL DE INGENIERÍA DE SISTEMAS COMPUTACIONALES
 ---
 
 # EVALUACIÓN PARCIAL — BIG DATA
@@ -11,10 +10,10 @@
 
 ---
 
-| **CÓDIGO DEL ESTUDIANTE:** | | **NÚMERO DE CLASE:** | |
+| **CÓDIGO DEL ESTUDIANTE:** 2221890070 | | **NÚMERO DE CLASE:** 6 | |
 | --- | --- | --- | --- |
-| **APELLIDOS Y NOMBRES:** | | **FECHA ENTREGA:** | |
-| **DOCENTE:** | **Mg. Rubén Quispe Llacctarimay** | **Modalidad:** | **Implementación + Video** |
+| **APELLIDOS Y NOMBRES:** Ferreyra Villarriel, Raúl Ricardo | | **FECHA ENTREGA:** 25/06/2026 | |
+| **DOCENTE:** | **Mg. Rubén Quispe Llacctarimay** | **Modalidad:** Presencial | **Implementación + Video** |
 
 ---
 
