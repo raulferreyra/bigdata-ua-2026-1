@@ -6,12 +6,13 @@
 ---
 
 # EVALUACIÓN PARCIAL — BIG DATA
+
 ## Código: DD283 | Ciclo VIII | Semestre 2026-1
 
 ---
 
 | **CÓDIGO DEL ESTUDIANTE:** | | **NÚMERO DE CLASE:** | |
-|---|---|---|---|
+| --- | --- | --- | --- |
 | **APELLIDOS Y NOMBRES:** | | **FECHA ENTREGA:** | |
 | **DOCENTE:** | **Mg. Rubén Quispe Llacctarimay** | **Modalidad:** | **Implementación + Video** |
 
@@ -20,7 +21,7 @@
 ## INSTRUCCIONES GENERALES
 
 | Ítem | Detalle |
-|------|---------|
+| ------ | --------- |
 | **Duración** | 48 horas desde que el docente comparte este documento |
 | **Modalidad** | Individual — implementación real en software + video de sustentación |
 | **IA permitida** | **Sí** — puedes usar ChatGPT, Claude, Gemini, GitHub Copilot para asistirte en el código. Sin embargo, debes **entender, modificar y ejecutar** lo que el sistema genere. El video evidenciará tu comprensión. |
@@ -41,7 +42,7 @@
 **Yape** (BCP) es la fintech más grande de Perú:
 
 | Indicador | Dato 2025 |
-|-----------|-----------|
+| ----------- | ----------- |
 | Usuarios activos | 15 millones |
 | Transacciones diarias | 3.2 millones |
 | Comerciantes afiliados | 1.3 millones |
@@ -54,6 +55,7 @@
 ---
 
 ## PARTE A — DISEÑO Y ARQUITECTURA (4 puntos)
+
 ### *Puedes usar IA generativa en esta sección — cita qué herramienta usaste*
 
 ---
@@ -65,7 +67,7 @@
 Diseña la arquitectura completa de datos para Yape. Para cada componente del sistema, elige la tecnología adecuada y justifica. Puedes usar IA para explorar opciones, pero la justificación debe ser tuya.
 
 | Componente del sistema | Tecnología elegida | Tipo BD/Herramienta | Por qué esta tecnología para Yape (2 líneas) |
-|------------------------|-------------------|--------------------|--------------------------------------------|
+| ------------------------ | ------------------- | -------------------- | -------------------------------------------- |
 | Core de pagos (3.2M transacciones/día, no puede perder dinero) | | | |
 | Sesiones de login activo (15M usuarios, expira en 30 min) | | | |
 | Perfil del comerciante (bodega, restaurante, taxi — atributos distintos) | | | |
@@ -80,7 +82,7 @@ Diseña la arquitectura completa de datos para Yape. Para cada componente del si
 Para los siguientes 2 componentes de Yape, indica la combinación CAP correcta (CP, AP o CA) y explica qué propiedad sacrifica y por qué ese sacrificio es aceptable o inaceptable:
 
 | Componente | Combinación CAP | Propiedad sacrificada | ¿Por qué ese sacrificio es correcto o incorrecto para este caso? |
-|------------|----------------|----------------------|----------------------------------------------------------------|
+| ------------ | ---------------- | ---------------------- | ---------------------------------------------------------------- |
 | Core de pagos (débito/crédito de saldos) | | | |
 | Historial "mis últimas 50 transacciones" | | | |
 
@@ -99,6 +101,7 @@ c) ¿Qué mecanismo técnico usa CockroachDB para mantener ACID en múltiples no
 ---
 
 ## PARTE B — DATABRICKS COMMUNITY EDITION (6 puntos)
+
 ### *Implementación obligatoria — evidencia en video y screenshot de outputs*
 
 ---
@@ -184,6 +187,7 @@ df_silver.groupBy("categoria_monto").count().show()
 ```
 
 *Pistas para los `___`:*
+
 - *`estado ==` → solo transacciones "completadas"*
 - *`monto_soles >` → mayor a 0*
 - *`otherwise` en categoría → "alto" (más de S/100)*
@@ -239,6 +243,7 @@ gold_comisiones.show(5)
 ```
 
 *Pistas para los `___`:*
+
 - *`SUM(CASE WHEN es_comercio THEN ___ ELSE 0 END)` → contar con `1`*
 - *`GROUP BY ___` → el campo de distrito*
 - *`ORDER BY ___ DESC` → el campo de total de transacciones*
@@ -289,12 +294,14 @@ print("✅ Dashboard guardado en /FileStore/yape/gold/dashboard_yape.png")
 ---
 
 **Entregable Parte B:**
+
 - Screenshot del notebook completo con las 4 celdas ejecutadas (outputs visibles)
 - En el video (P5): explicar qué hace la arquitectura Medallion y mostrar el dashboard generado
 
 ---
 
 ## PARTE C — MONGODB ATLAS (5 puntos)
+
 ### *Implementación obligatoria en Atlas M0 — evidencia en screenshot y video*
 
 ---
@@ -523,6 +530,7 @@ for r in comerciantes.aggregate(pipeline_reporte):
 ```
 
 *Pistas para los `___`:*
+
 - *`yape_activo: ___` → `True`*
 - *`departamento: ___` → `"Lima"`*
 - *`$sum: ___` para contar → `1`*
@@ -533,6 +541,7 @@ for r in comerciantes.aggregate(pipeline_reporte):
 ---
 
 **Entregable Parte C:**
+
 - Screenshot de Atlas UI → Browse Collections mostrando los documentos insertados
 - Screenshot del output del pipeline ejecutado en Colab/local
 - En el video: mostrar Atlas Dashboard + explicar por qué el esquema flexible de MongoDB es adecuado vs. SQL para este caso
@@ -540,6 +549,7 @@ for r in comerciantes.aggregate(pipeline_reporte):
 ---
 
 ## PARTE D — DOCKER DESKTOP (3 puntos)
+
 ### *MongoDB local en contenedor — evidencia en video*
 
 ---
@@ -624,7 +634,7 @@ print(f"\nTotal documentos en Docker: {col_local.count_documents({})}")
 
 Responde en el espacio de abajo (3-5 líneas):
 
-```
+```sh
 a) ¿Cuándo usarías MongoDB en Docker en lugar de MongoDB Atlas para el equipo de Yape?
 
 
@@ -649,6 +659,7 @@ docker rm yape-mongo-local
 ---
 
 **Entregable Parte D:**
+
 - Screenshot de Docker Desktop mostrando el contenedor `yape-mongo-local` en estado **Running**
 - Screenshot del output de Python conectando al contenedor
 - En el video: mostrar Docker Desktop → Containers → Logs del contenedor
@@ -667,7 +678,7 @@ docker rm yape-mongo-local
 **Estructura obligatoria del video:**
 
 | Segmento | Tiempo | Qué mostrar |
-|----------|--------|-------------|
+| ---------- | -------- | ------------- |
 | **1. Presentación** | 20 seg | Di tu nombre, código y tema del examen |
 | **2. Arquitectura** | 1 min | Explica la tabla de P1.1 — justifica 2 decisiones tecnológicas con tus propias palabras |
 | **3. Databricks** | 2 min | Muestra el notebook ejecutado, el dashboard generado, explica qué hace Bronze→Silver→Gold |
@@ -681,9 +692,9 @@ docker rm yape-mongo-local
 
 ## ENTREGABLES Y FORMA DE ENTREGA
 
-### Estructura del PR en GitHub:
+### Estructura del PR en GitHub
 
-```
+```sh
 semana_04/Soluciones/TuNombre_TuCodigo/
 │
 ├── P1_arquitectura.md          ← Tabla P1.1 + respuestas P1.2 y P1.3
@@ -718,21 +729,21 @@ semana_04/Soluciones/TuNombre_TuCodigo/
 ### RUBRICA — Evaluación Parcial Big Data DD283
 
 | **DOCENTE** | Mg. Rubén Quispe Llacctarimay |
-|-------------|-------------------------------|
+| ------------- | ------------------------------- |
 | **Evaluación** | Parcial — Semanas 1 a 4 |
 | **Herramientas** | Databricks Community · MongoDB Atlas M0 · Docker Desktop |
 | **IA** | Permitida como asistente — se evalúa implementación y comprensión |
 
 ---
 
-| ÍTEM | DESCRIPCIÓN | 100% del puntaje | 50% del puntaje | 0% |  PTS |
-|------|-------------|-----------------|----------------|-----|------|
+| ÍTEM | DESCRIPCIÓN | 100% del puntaje | 50% del puntaje | 0% | PTS |
+| ------ | ------------- | ----------------- | ---------------- | ----- | ------ |
 | **P1.1 — Arquitectura** | Tabla con 6 componentes, tecnología correcta y justificación | 6/6 correctos con justificación técnica específica del caso Yape | 3-5 correctos o justificaciones genéricas | < 3 correctos | **2** |
 | **P1.2 — CAP Theorem** | 2 componentes con combinación correcta y explicación de sacrificio | Ambos correctos con explicación del sacrificio vinculada al caso | 1 correcto o explicación sin caso | Ambos incorrectos | **1** |
 | **P1.3 — NewSQL** | 3 preguntas: limitación Oracle, por qué no MongoDB, mecanismo técnico | Raft/Paxos mencionado + limitación correcta + problema ACID de MongoDB | 2/3 correctos | 0-1 correctos | **1** |
 | **P2 — Databricks: celdas 2 y 3** | Silver y Gold completados con `___` reemplazados correctamente | Output de ambas celdas visible con datos correctos en screenshot | Solo Silver correcta o Gold con errores menores | Sin output o celdas sin completar | **4** |
 | **P2 — Databricks: dashboard** | Celda 4 ejecutada, gráfico generado y visible en screenshot | Gráfico con datos reales (no vacío) guardado en /FileStore | Gráfico incompleto (un solo panel) | Sin gráfico | **2** |
-| **P3.1 — Atlas: inserción** | 5 documentos con estructura flexible visible en Atlas UI | 5 documentos insertados, screenshot de Atlas Browse Collections | 3-4 documentos o sin screenshot de Atlas | Sin inserción en Atlas real |  **2** |
+| **P3.1 — Atlas: inserción** | 5 documentos con estructura flexible visible en Atlas UI | 5 documentos insertados, screenshot de Atlas Browse Collections | 3-4 documentos o sin screenshot de Atlas | Sin inserción en Atlas real | **2** |
 | **P3.2 — Atlas: queries** | 3 consultas ejecutadas con output visible | Las 3 consultas con resultado correcto | 2/3 consultas correctas | Sin queries o resultados vacíos | **1.5** |
 | **P3.3 — Atlas: pipeline** | Pipeline completado con los `___` reemplazados, tabla de facturación impresa | Output visible con columnas correctas y datos coherentes | Pipeline sin completar pero ejecutado con errores menores | Sin pipeline ejecutado | **1.5** |
 | **P4.1 — Docker: contenedor** | `docker run` exitoso, Docker Desktop mostrando Running | Screenshot de Docker Desktop con contenedor verde | Screenshot sin estado Running claro | Sin evidencia de Docker | **1** |
@@ -746,7 +757,7 @@ semana_04/Soluciones/TuNombre_TuCodigo/
 ### Escala de calificación
 
 | Puntaje | Nivel | Descripción |
-|---------|-------|-------------|
+| --------- | ------- | ------------- |
 | 18 – 20 | AD — Logro destacado | Implementación completa, explicación fluida, adaptaciones propias al código |
 | 14 – 17 | A — Logro esperado | Implementación funcional en las 3 herramientas, comprensión demostrada en video |
 | 11 – 13 | B — En proceso | Implementación parcial (2 de 3 herramientas), explicación con vacíos conceptuales |
