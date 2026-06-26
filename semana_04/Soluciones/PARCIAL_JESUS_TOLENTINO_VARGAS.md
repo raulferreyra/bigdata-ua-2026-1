@@ -18,8 +18,13 @@
 ---
 REPOSITORIO
 https://github.com/J3susTo/EXAMEN_PARCIAL_BIG_DATA_YAPE
+
 VIDEO:
 https://www.loom.com/share/114d199177b442a9a3e2b9e9c60c8d59
+
+ARQUITECTURA:
+https://drive.google.com/file/d/1QdAvU9IIQ2AxsCpqrxyEtEmcuJXMU5v8/view?usp=sharing
+
 
 ## INSTRUCCIONES GENERALES
 
@@ -156,6 +161,7 @@ df_bronze.write.mode("overwrite").parquet("/FileStore/yape/bronze/transacciones"
 print(f"✅ Bronze layer: {df_bronze.count()} transacciones guardadas")
 df_bronze.show(5)
 ```
+RESPUESTA:
 ✅ **Bronze Layer:** 2000 transacciones guardadas.
 
 | id_transaccion | fecha | hora | monto_soles | tipo | distrito_origen | estado | id_usuario | es_comercio |
@@ -208,6 +214,7 @@ df_silver.groupBy("categoria_monto").count().show()
 - *`between` hora tarde → "22:00"*
 - *`comision_yape` → Yape cobra 1.5% a comercios: `0.015`*
 
+RESPUESTA:
 ✅ **Silver Layer:** 1802 transacciones válidas.
 
 - **Transacciones eliminadas:** 198 (rechazadas, pendientes o con monto igual a cero).
@@ -273,6 +280,8 @@ gold_comisiones.show(5)
 - *`ORDER BY ___ DESC` → el campo de total de transacciones*
 - *`WHERE ___` → solo donde la comisión es mayor a 0*
 
+
+RESPUESTA:
 ## 📊 Gold Layer
 
 ### 📍 Resumen por distrito
@@ -352,7 +361,7 @@ print("✅ Dashboard guardado en /FileStore/yape/gold/dashboard_yape.png")
 
 ## PARTE C — MONGODB ATLAS (5 puntos)
 ### *Implementación obligatoria en Atlas M0 — evidencia en screenshot y video*
-
+RESPUESTA: Las imagenes estan en el repositorio mio el cual usrted esta como colaborador.
 ---
 
 ### PREGUNTA 3 — Base de Datos NoSQL de Comerciantes Yape en Atlas (5 puntos)
@@ -592,7 +601,7 @@ for r in comerciantes.aggregate(pipeline_reporte):
 - Screenshot de Atlas UI → Browse Collections mostrando los documentos insertados
 - Screenshot del output del pipeline ejecutado en Colab/local
 - En el video: mostrar Atlas Dashboard + explicar por qué el esquema flexible de MongoDB es adecuado vs. SQL para este caso
-
+RESPUESTA: la aplicacion esta en el git repositorio co le comparti arriba esta el enlace y esta usted como colaborador.
 ---
 
 ## PARTE D — DOCKER DESKTOP (3 puntos)
@@ -682,15 +691,16 @@ Responde en el espacio de abajo (3-5 líneas):
 
 ```
 a) ¿Cuándo usarías MongoDB en Docker en lugar de MongoDB Atlas para el equipo de Yape?
-
+RESPUESTA: 
 Usaría Docker para desarrollo local, pruebas rápidas, trabajo sin depender de internet y validación de código antes de enviarlo a un entorno cloud. Es útil cuando el equipo necesita un ambiente repetible sin instalar MongoDB directamente.
 
 b) ¿Qué ventaja tiene Atlas M0 sobre el contenedor Docker para el contexto universitario?
-
+RESPUESTA: 
 En el contexto universitario, MongoDB Atlas M0 resulta más práctico porque permite acceder a la base de datos desde cualquier computadora con Internet, sin necesidad de instalar ni configurar un servidor local. Además, los datos permanecen disponibles en la nube y se pueden revisar fácilmente desde su interfaz web, lo que facilita las prácticas y las demostraciones. En cambio, con Docker es necesario tener Docker Desktop instalado y el contenedor en ejecución para poder acceder a la base de datos.
 
 c) ¿Qué sucede con los datos del contenedor Docker si ejecutas `docker stop yape-mongo-local` y 
    luego `docker rm yape-mongo-local`? ¿Y con los datos de Atlas?
+RESPUESTA: 
 Con docker stop el contenedor se detiene pero conserva datos mientras exista el contenedor. Con docker rm se elimina el contenedor y, si no se configuró un volumen persistente, se pierden los datos. En Atlas los datos permanecen en la nube hasta que se elimine la base, colección o cluster.
 
 ```
@@ -731,7 +741,7 @@ docker rm yape-mongo-local
 | **5. Docker Desktop** | 1 min | Muestra Docker Desktop con el contenedor corriendo → el output de Python conectando |
 | **6. Uso de IA** | 30 seg | Menciona qué partes te ayudó IA a resolver y qué tuviste que modificar tú |
 
-**Enlace del video:** `https://______________________________`
+**Enlace del video:** `https://www.loom.com/share/114d199177b442a9a3e2b9e9c60c8d59`
 
 ---
 
@@ -762,6 +772,43 @@ semana_04/Soluciones/TuNombre_TuCodigo/
 │
 └── README.md                   ← Enlace al video + descripción de lo implementado
 ```
+RESPUESTA:
+
+Yo cree una estructura mas comoda para mi .
+semana_04/Soluciones/Jesus_Tolentino/
+│
+├── P1 Arquitectura
+│      P1_arquitectura.md
+│
+├── P2 Databricks
+│      P2_databricks_yape.ipynb
+│
+├── P3 MongoDB Atlas
+│      config.py
+│      comerciantes.py
+│      consultas.py
+│      pipeline.py
+│      P3_mongodb_atlas.py
+│      requirements.txt
+│
+├── P4_Docker
+│      P4_docker.py
+│      requirements.txt
+│
+├── screenshots
+│      atlas_collections.png
+│      atlas_pipeline_output.png
+│      docker_desktop.png
+│      databricks_celda1.png
+│      databricks_celda2.png
+│      databricks_celda3.png
+│      databricks_dashboard.png
+│      docker_desktop2.png
+│      Driver_MongoDB.png
+│      Prueba_de_autoria.png
+│      conexion_mongoDB.png
+│
+└── README.md
 
 **Rama del PR:** `semana04-solucion-TuNombre`
 **Base:** `main`
