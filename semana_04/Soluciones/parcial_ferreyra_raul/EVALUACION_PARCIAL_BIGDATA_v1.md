@@ -685,7 +685,9 @@ docker rm yape-mongo-local
 | **5. Docker Desktop** | 1 min | Muestra Docker Desktop con el contenedor corriendo → el output de Python conectando |
 | **6. Uso de IA** | 30 seg | Menciona qué partes te ayudó IA a resolver y qué tuviste que modificar tú |
 
-**Enlace del video:** `https://______________________________`
+**Enlace del video:** [https://youtu.be/RdwRC5ZNbKs](https://youtu.be/RdwRC5ZNbKs)
+
+**Repositorio del proyecto:** [https://github.com/raulferreyra/yape-ferreyra-raul/](https://github.com/raulferreyra/yape-ferreyra-raul/)
 
 ---
 
