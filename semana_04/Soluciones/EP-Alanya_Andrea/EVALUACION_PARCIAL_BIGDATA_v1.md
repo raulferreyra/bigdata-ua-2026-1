@@ -6,13 +6,12 @@
 ---
 
 # EVALUACIÓN PARCIAL — BIG DATA
-
 ## Código: DD283 | Ciclo VIII | Semestre 2026-1
 
 ---
 
 | **CÓDIGO DEL ESTUDIANTE:** | | **NÚMERO DE CLASE:** | |
-| --- | --- | --- | --- |
+|---|---|---|---|
 | **APELLIDOS Y NOMBRES:** | | **FECHA ENTREGA:** | |
 | **DOCENTE:** | **Mg. Rubén Quispe Llacctarimay** | **Modalidad:** | **Implementación + Video** |
 
@@ -21,7 +20,7 @@
 ## INSTRUCCIONES GENERALES
 
 | Ítem | Detalle |
-| ------ | --------- |
+|------|---------|
 | **Duración** | 48 horas desde que el docente comparte este documento |
 | **Modalidad** | Individual — implementación real en software + video de sustentación |
 | **IA permitida** | **Sí** — puedes usar ChatGPT, Claude, Gemini, GitHub Copilot para asistirte en el código. Sin embargo, debes **entender, modificar y ejecutar** lo que el sistema genere. El video evidenciará tu comprensión. |
@@ -42,7 +41,7 @@
 **Yape** (BCP) es la fintech más grande de Perú:
 
 | Indicador | Dato 2025 |
-| ----------- | ----------- |
+|-----------|-----------|
 | Usuarios activos | 15 millones |
 | Transacciones diarias | 3.2 millones |
 | Comerciantes afiliados | 1.3 millones |
@@ -55,7 +54,6 @@
 ---
 
 ## PARTE A — DISEÑO Y ARQUITECTURA (4 puntos)
-
 ### *Puedes usar IA generativa en esta sección — cita qué herramienta usaste*
 
 ---
@@ -67,13 +65,13 @@
 Diseña la arquitectura completa de datos para Yape. Para cada componente del sistema, elige la tecnología adecuada y justifica. Puedes usar IA para explorar opciones, pero la justificación debe ser tuya.
 
 | Componente del sistema | Tecnología elegida | Tipo BD/Herramienta | Por qué esta tecnología para Yape (2 líneas) |
-| ------------------------ | ------------------- | -------------------- | -------------------------------------------- |
-| Core de pagos (3.2M transacciones/día, no puede perder dinero) | | | |
-| Sesiones de login activo (15M usuarios, expira en 30 min) | | | |
-| Perfil del comerciante (bodega, restaurante, taxi — atributos distintos) | | | |
-| Historial de transacciones para análisis (18 TB/año) | | | |
-| Red de detección de fraude (ciclo A→B→C→A en < 5 min) | | | |
-| Dashboard ejecutivo (top 10 distritos, actualización diaria) | | | |
+|------------------------|-------------------|--------------------|--------------------------------------------|
+| Core de pagos (3.2M transacciones/día, no puede perder dinero) | CockroachDB | NewSQL | Garantiza transacciones ACID estrictas para no perder dinero y escala de forma horizontal automáticamente. |
+| Sesiones de login activo (15M usuarios, expira en 30 min) | Redis | NoSQL (Clave-Valor) | Guarda los datos en memoria RAM ofreciendo respuestas en milisegundos para soportar millones de accesos. |
+| Perfil del comerciante (bodega, restaurante, taxi — atributos distintos) | MongoDB | NoSQL (Documental) | Permite un esquema flexible en formato JSON; ideal porque una bodega y un taxi tienen datos totalmente diferentes. |
+| Historial de transacciones para análisis (18 TB/año) | Databricks / Spark | Lakehouse / Big Data | Procesa terabytes de datos de forma distribuida para analítica avanzada usando almacenamiento masivo y económico. |
+| Red de detección de fraude (ciclo A→B→C→A en < 5 min) | Neo4j | NoSQL (Grafos) | Diseñada para recorrer relaciones complejas y detectar patrones circulares de lavado de dinero en tiempo real. |
+| Dashboard ejecutivo (top 10 distritos, actualización diaria) | Power BI / Matplotlib | BI / Visualización | Permite conectar los datos limpios de la capa Gold y transformarlos en gráficos interactivos para los directivos. |
 
 ---
 
@@ -81,10 +79,10 @@ Diseña la arquitectura completa de datos para Yape. Para cada componente del si
 
 Para los siguientes 2 componentes de Yape, indica la combinación CAP correcta (CP, AP o CA) y explica qué propiedad sacrifica y por qué ese sacrificio es aceptable o inaceptable:
 
-| Componente | Combinación CAP | Propiedad sacrificada | ¿Por qué ese sacrificio es correcto o incorrecto para este caso? |
-| ------------ | ---------------- | ---------------------- | ---------------------------------------------------------------- |
-| Core de pagos (débito/crédito de saldos) | | | |
-| Historial "mis últimas 50 transacciones" | | | |
+| *Componente* | *Combinación CAP* | *Propiedad sacrificada* | *¿Por qué ese sacrificio es correcto o incorrecto para este caso?* |
+| ----- | ----- | ----- | ----- |
+| Core de pagos (débito/crédito de saldos) | CP | Disponibilidad | Es correcto. En transacciones de dinero, la Consistencia es prioritaria. Si hay una falla de red, es preferible bloquear temporalmente el sistema antes que permitir saldos erróneos o duplicados. |
+| Historial "mis últimas 50 transacciones" | AP | Consistencia estricta | Es correcto. Para el usuario es más importante que la app responda rápido y muestre datos (Disponibilidad). Una consistencia eventual es aceptable aquí; no importa si el historial tarda unos minutos en actualizarse. |
 
 ---
 
@@ -92,16 +90,15 @@ Para los siguientes 2 componentes de Yape, indica la combinación CAP correcta (
 
 El equipo de Yape evalúa migrar el core de pagos a **CockroachDB** (NewSQL). Responde:
 
-a) ¿Qué limitación de Oracle resuelve CockroachDB al escalar de 15M a 50M usuarios?
+* **a) ¿Qué limitación de Oracle resuelve CockroachDB al escalar de 15M a 50M usuarios?:** Oracle escala principalmente de forma *vertical* (requiere un servidor más grande, costoso y genera un punto único de falla). CockroachDB resuelve esto escalando de forma *horizontal* (permite añadir nodos de servidores estándar en la nube de manera ilimitada para soportar el crecimiento masivo de usuarios sin detener el sistema).
 
-b) ¿Por qué MongoDB NO puede reemplazar a Oracle para el procesamiento de pagos aunque también escala horizontalmente?
+* **b) ¿Por qué MongoDB NO puede reemplazar a Oracle para el procesamiento de pagos aunque también escala horizontalmente?:** Porque el procesamiento de pagos requiere transacciones financieras con consistencia estricta en múltiples tablas o nodos distribuidos. Aunque MongoDB maneja transacciones, no fue diseñado nativamente desde su arquitectura para garantizar el cumplimiento estricta de las propiedades ACID a escala global distribuida con el nivel de seguridad financiera que ofrece un motor NewSQL.
 
-c) ¿Qué mecanismo técnico usa CockroachDB para mantener ACID en múltiples nodos distribuidos? (1 término técnico es suficiente)
+* **c) ¿Qué mecanismo técnico usa CockroachDB para mantener ACID en múltiples nodos distribuidos?:** Usa el protocolo de consenso **Raft** (para la replicación de datos y consistencia entre los nodos).
 
 ---
 
 ## PARTE B — DATABRICKS COMMUNITY EDITION (6 puntos)
-
 ### *Implementación obligatoria — evidencia en video y screenshot de outputs*
 
 ---
@@ -164,19 +161,19 @@ df_bronze.show(5)
 df_bronze = spark.read.parquet("/FileStore/yape/bronze/transacciones")
 
 df_silver = df_bronze \
-    .filter(df_bronze.estado == ___) \
-    .filter(df_bronze.monto_soles > ___) \
+    .filter(df_bronze.estado == "completadas") \
+    .filter(df_bronze.monto_soles > 0) \
     .withColumn("categoria_monto",
         F.when(F.col("monto_soles") < 20, "micro")
          .when(F.col("monto_soles") < 100, "medio")
-         .otherwise(___)) \
+         .otherwise("alto")) \
     .withColumn("es_hora_pico",
         F.when(F.col("hora").between("12:00", "14:00"), True)
-         .when(F.col("hora").between("18:00", ___), True)
+         .when(F.col("hora").between("18:00", "22:00"), True)
          .otherwise(False)) \
     .withColumn("comision_yape",
         F.when(F.col("tipo") == "persona_a_comercio",
-               F.round(F.col("monto_soles") * ___, 2))
+               F.round(F.col("monto_soles") * 0.015, 2))
          .otherwise(0.0))
 
 df_silver.write.mode("overwrite").parquet("/FileStore/yape/silver/transacciones_limpias")
@@ -187,7 +184,6 @@ df_silver.groupBy("categoria_monto").count().show()
 ```
 
 *Pistas para los `___`:*
-
 - *`estado ==` → solo transacciones "completadas"*
 - *`monto_soles >` → mayor a 0*
 - *`otherwise` en categoría → "alto" (más de S/100)*
@@ -215,8 +211,8 @@ gold_distritos = spark.sql("""
         ROUND(AVG(monto_soles), 2)        AS ticket_promedio,
         SUM(CASE WHEN es_comercio THEN ___ ELSE 0 END) AS transacciones_comercio
     FROM transacciones
-    GROUP BY ___
-    ORDER BY ___ DESC
+    GROUP BY distrito_origen
+    ORDER BY total_transacciones DESC
     LIMIT 5
 """)
 
@@ -227,7 +223,7 @@ gold_comisiones = spark.sql("""
         COUNT(*)                          AS num_transacciones,
         ROUND(SUM(comision_yape), 2)      AS ingresos_yape_soles
     FROM transacciones
-    WHERE ___
+    WHERE comision_yape > 0
     GROUP BY SUBSTRING(hora, 1, 2)
     ORDER BY ingresos_yape_soles DESC
 """)
@@ -243,7 +239,6 @@ gold_comisiones.show(5)
 ```
 
 *Pistas para los `___`:*
-
 - *`SUM(CASE WHEN es_comercio THEN ___ ELSE 0 END)` → contar con `1`*
 - *`GROUP BY ___` → el campo de distrito*
 - *`ORDER BY ___ DESC` → el campo de total de transacciones*
@@ -294,16 +289,40 @@ print("✅ Dashboard guardado en /FileStore/yape/gold/dashboard_yape.png")
 ---
 
 **Entregable Parte B:**
-
 - Screenshot del notebook completo con las 4 celdas ejecutadas (outputs visibles)
 - En el video (P5): explicar qué hace la arquitectura Medallion y mostrar el dashboard generado
 
 ---
 
 ## PARTE C — MONGODB ATLAS (5 puntos)
-
 ### *Implementación obligatoria en Atlas M0 — evidencia en screenshot y video*
 
+#### 1. Justificación del Modelo de Datos (Embebido vs. Referenciado)
+Para almacenar las transacciones de Yape en MongoDB, se optó por un **Modelo de Datos Embebido (Denormalizado)**.
+
+* **Justificación:** Las consultas más frecuentes en una aplicación de pagos móviles exigen leer el detalle completo de una transacción de forma atómica y con latencias de milisegundos (quién envió, quién recibió, el monto y el comercio). Si usáramos un modelo referenciado (estilo relacional), MongoDB tendría que realizar operaciones de `$lookup` (JOINs) en tiempo de ejecución cruzando múltiples colecciones distribuidas, lo que degradaría el rendimiento bajo millones de usuarios concurrentes. Al embeber el `usuario_origen` y el `comercio_destino` en el mismo documento, la lectura es directa, veloz y altamente escalable.
+
+#### 2. Diseño del Esquema JSON (Documento de Ejemplo Real)
+A continuación, se define el esquema estructurado en formato JSON/BSON que representa fielmente una transacción del ecosistema Yape, aplicando tipos de datos nativos enriquecidos para auditoría y precisión financiera:
+
+```json
+{
+  "id_transaccion": "YP0000001",
+  "fecha": {"$date": "2025-01-01T06:25:00Z"},
+  "monto_soles": {"$numberDecimal": "35.47"},
+  "tipo": "persona_a_persona",
+  "estado": "completada",
+  "usuario_origen": {
+    "id_usuario": "USR9055",
+    "celular": "987654321",
+    "distrito": "Surco"
+  },
+  "comercio_destino": {
+    "id_comercio": "COM4412",
+    "nombre_comercio": "Bodega Don Pepe",
+    "rubro": "Abarrotes"
+  }
+}
 ---
 
 ### PREGUNTA 3 — Base de Datos NoSQL de Comerciantes Yape en Atlas (5 puntos)
@@ -312,7 +331,7 @@ print("✅ Dashboard guardado en /FileStore/yape/gold/dashboard_yape.png")
 
 ---
 
-**PASO 1 — Conectar a Atlas desde Google Colab o tu local (ejecutar primero):**
+## PASO 1 — Conectar a Atlas desde Google Colab o tu local (ejecutar primero):**
 
 ```python
 # ============================================================
@@ -482,6 +501,53 @@ bodegas_farmacias = list(comerciantes.find(
 for c in bodegas_farmacias:
     print(f"  → [{c['tipo']}] {c['nombre_comercio']}")
 ```
+## PASO 4 — Aggregation Pipeline (3.3 — 1.5 pts):
+# ============================================================
+# ▶ TU TURNO: Completa el pipeline de facturación por tipo
+# Objetivo: reporte para el equipo comercial de Yape
+# ============================================================
+
+pipeline_reporte = [
+# Paso 1: Solo comerciantes activos en Lima
+    {"$match": {"yape_activo": True, "departamento": "Lima"}},
+    
+    # Paso 2: Agrupar por tipo de comercio
+    {"$group": {
+        "_id": "$tipo",
+        "total_comercios":     {"$sum": 1},
+        "facturacion_total":   {"$sum": "$monto_mensual_soles"},
+        "calificacion_prom":   {"$avg": "$calificacion"},
+        "con_delivery":        {"$sum": {"$cond": ["$acepta_delivery", 1, 0]}}
+    }},
+    
+    # Paso 3: Ordenar por facturación total descendente
+    {"$sort": {"facturacion_total": -1}},
+    
+    # Paso 4: Formatear la salida
+    {"$project": {
+        "tipo_comercio":    "$_id",
+        "total_comercios":  1,
+        "facturacion_total": 1,
+        "calificacion_prom": {"$round": ["$calificacion_prom", 1]},
+        "con_delivery":     1,
+        "_id": 0
+    }}
+]
+
+print("📊 REPORTE COMERCIAL YAPE — FACTURACIÓN POR TIPO:")
+print(f"{'TIPO':<20} {'COMERCIOS':>9} {'FACTURACIÓN/MES':>16} {'RATING':>7} {'C/DELIVERY':>11}")
+print("-" * 67)
+for r in comerciantes.aggregate(pipeline_reporte):
+    print(f"{r['tipo_comercio']:<20} {r['total_comercios']:>9} "
+          f"S/{r['facturacion_total']:>13,.0f} {r['calificacion_prom']:>7} "
+          f"{r['con_delivery']:>11}")
+
+
+
+##### Consulta A: Filtrar comerciantes con calificación mayor o igual a 4.5
+* **Filtro (MQL):**
+```json
+{ "calificacion": { "$gte": 4.5 } }
 
 ---
 
@@ -530,7 +596,6 @@ for r in comerciantes.aggregate(pipeline_reporte):
 ```
 
 *Pistas para los `___`:*
-
 - *`yape_activo: ___` → `True`*
 - *`departamento: ___` → `"Lima"`*
 - *`$sum: ___` para contar → `1`*
@@ -541,7 +606,6 @@ for r in comerciantes.aggregate(pipeline_reporte):
 ---
 
 **Entregable Parte C:**
-
 - Screenshot de Atlas UI → Browse Collections mostrando los documentos insertados
 - Screenshot del output del pipeline ejecutado en Colab/local
 - En el video: mostrar Atlas Dashboard + explicar por qué el esquema flexible de MongoDB es adecuado vs. SQL para este caso
@@ -549,7 +613,6 @@ for r in comerciantes.aggregate(pipeline_reporte):
 ---
 
 ## PARTE D — DOCKER DESKTOP (3 puntos)
-
 ### *MongoDB local en contenedor — evidencia en video*
 
 ---
@@ -634,7 +697,7 @@ print(f"\nTotal documentos en Docker: {col_local.count_documents({})}")
 
 Responde en el espacio de abajo (3-5 líneas):
 
-```sh
+```
 a) ¿Cuándo usarías MongoDB en Docker en lugar de MongoDB Atlas para el equipo de Yape?
 
 
@@ -659,7 +722,6 @@ docker rm yape-mongo-local
 ---
 
 **Entregable Parte D:**
-
 - Screenshot de Docker Desktop mostrando el contenedor `yape-mongo-local` en estado **Running**
 - Screenshot del output de Python conectando al contenedor
 - En el video: mostrar Docker Desktop → Containers → Logs del contenedor
@@ -678,7 +740,7 @@ docker rm yape-mongo-local
 **Estructura obligatoria del video:**
 
 | Segmento | Tiempo | Qué mostrar |
-| ---------- | -------- | ------------- |
+|----------|--------|-------------|
 | **1. Presentación** | 20 seg | Di tu nombre, código y tema del examen |
 | **2. Arquitectura** | 1 min | Explica la tabla de P1.1 — justifica 2 decisiones tecnológicas con tus propias palabras |
 | **3. Databricks** | 2 min | Muestra el notebook ejecutado, el dashboard generado, explica qué hace Bronze→Silver→Gold |
@@ -692,9 +754,9 @@ docker rm yape-mongo-local
 
 ## ENTREGABLES Y FORMA DE ENTREGA
 
-### Estructura del PR en GitHub
+### Estructura del PR en GitHub:
 
-```sh
+```
 semana_04/Soluciones/TuNombre_TuCodigo/
 │
 ├── P1_arquitectura.md          ← Tabla P1.1 + respuestas P1.2 y P1.3
@@ -729,21 +791,21 @@ semana_04/Soluciones/TuNombre_TuCodigo/
 ### RUBRICA — Evaluación Parcial Big Data DD283
 
 | **DOCENTE** | Mg. Rubén Quispe Llacctarimay |
-| ------------- | ------------------------------- |
+|-------------|-------------------------------|
 | **Evaluación** | Parcial — Semanas 1 a 4 |
 | **Herramientas** | Databricks Community · MongoDB Atlas M0 · Docker Desktop |
 | **IA** | Permitida como asistente — se evalúa implementación y comprensión |
 
 ---
 
-| ÍTEM | DESCRIPCIÓN | 100% del puntaje | 50% del puntaje | 0% | PTS |
-| ------ | ------------- | ----------------- | ---------------- | ----- | ------ |
+| ÍTEM | DESCRIPCIÓN | 100% del puntaje | 50% del puntaje | 0% |  PTS |
+|------|-------------|-----------------|----------------|-----|------|
 | **P1.1 — Arquitectura** | Tabla con 6 componentes, tecnología correcta y justificación | 6/6 correctos con justificación técnica específica del caso Yape | 3-5 correctos o justificaciones genéricas | < 3 correctos | **2** |
 | **P1.2 — CAP Theorem** | 2 componentes con combinación correcta y explicación de sacrificio | Ambos correctos con explicación del sacrificio vinculada al caso | 1 correcto o explicación sin caso | Ambos incorrectos | **1** |
 | **P1.3 — NewSQL** | 3 preguntas: limitación Oracle, por qué no MongoDB, mecanismo técnico | Raft/Paxos mencionado + limitación correcta + problema ACID de MongoDB | 2/3 correctos | 0-1 correctos | **1** |
 | **P2 — Databricks: celdas 2 y 3** | Silver y Gold completados con `___` reemplazados correctamente | Output de ambas celdas visible con datos correctos en screenshot | Solo Silver correcta o Gold con errores menores | Sin output o celdas sin completar | **4** |
 | **P2 — Databricks: dashboard** | Celda 4 ejecutada, gráfico generado y visible en screenshot | Gráfico con datos reales (no vacío) guardado en /FileStore | Gráfico incompleto (un solo panel) | Sin gráfico | **2** |
-| **P3.1 — Atlas: inserción** | 5 documentos con estructura flexible visible en Atlas UI | 5 documentos insertados, screenshot de Atlas Browse Collections | 3-4 documentos o sin screenshot de Atlas | Sin inserción en Atlas real | **2** |
+| **P3.1 — Atlas: inserción** | 5 documentos con estructura flexible visible en Atlas UI | 5 documentos insertados, screenshot de Atlas Browse Collections | 3-4 documentos o sin screenshot de Atlas | Sin inserción en Atlas real |  **2** |
 | **P3.2 — Atlas: queries** | 3 consultas ejecutadas con output visible | Las 3 consultas con resultado correcto | 2/3 consultas correctas | Sin queries o resultados vacíos | **1.5** |
 | **P3.3 — Atlas: pipeline** | Pipeline completado con los `___` reemplazados, tabla de facturación impresa | Output visible con columnas correctas y datos coherentes | Pipeline sin completar pero ejecutado con errores menores | Sin pipeline ejecutado | **1.5** |
 | **P4.1 — Docker: contenedor** | `docker run` exitoso, Docker Desktop mostrando Running | Screenshot de Docker Desktop con contenedor verde | Screenshot sin estado Running claro | Sin evidencia de Docker | **1** |
@@ -757,7 +819,7 @@ semana_04/Soluciones/TuNombre_TuCodigo/
 ### Escala de calificación
 
 | Puntaje | Nivel | Descripción |
-| --------- | ------- | ------------- |
+|---------|-------|-------------|
 | 18 – 20 | AD — Logro destacado | Implementación completa, explicación fluida, adaptaciones propias al código |
 | 14 – 17 | A — Logro esperado | Implementación funcional en las 3 herramientas, comprensión demostrada en video |
 | 11 – 13 | B — En proceso | Implementación parcial (2 de 3 herramientas), explicación con vacíos conceptuales |
